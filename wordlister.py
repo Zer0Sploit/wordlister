@@ -1,32 +1,45 @@
 import argparse
+import resource
 
 def generate_wordlist(org_name, source_wordlist, separator, only_separator):
+	print('[+] Cooking your wordlist ...')
     # Open the source wordlist file
     with open(source_wordlist, "r", encoding='ISO-8859-1') as f:
         words = f.readlines()
 
-    custom_words = []
+    # Open the custom wordlist file
+    with open(f"{org_name}_wordlist.txt", "w") as f_custom:
+        # Generate custom wordlist with only the specified separator
+        if only_separator:
+            for word in words:
+                custom_word = f"{org_name.capitalize()}{only_separator}{word.strip()}\n"
+                f_custom.write(custom_word)
+                custom_word = f"{org_name.lower()}{only_separator}{word.strip()}\n"
+                f_custom.write(custom_word)
+                custom_word = f"{org_name.upper()}{only_separator}{word.strip()}\n"
+                f_custom.write(custom_word)
+        else:
+            # Generate custom wordlist with the specified separator and default '@' and '' separators
+            for word in words:
+                custom_word = f"{org_name.capitalize()}{separator}{word.strip()}\n"
+                f_custom.write(custom_word)
+                custom_word = f"{org_name.lower()}{separator}{word.strip()}\n"
+                f_custom.write(custom_word)
+                custom_word = f"{org_name.upper()}{separator}{word.strip()}\n"
+                f_custom.write(custom_word)
+                custom_word = f"{org_name.capitalize()}@{word.strip()}\n"
+                f_custom.write(custom_word)
+                custom_word = f"{org_name.lower()}@{word.strip()}\n"
+                f_custom.write(custom_word)
+                custom_word = f"{org_name.upper()}@{word.strip()}\n"
+                f_custom.write(custom_word)
+                custom_word = f"{org_name.capitalize()}{word.strip()}\n"
+                f_custom.write(custom_word)
+                custom_word = f"{org_name.lower()}{word.strip()}\n"
+                f_custom.write(custom_word)
+                custom_word = f"{org_name.upper()}{word.strip()}\n"
+                f_custom.write(custom_word)
 
-    # Generate custom wordlist with only the specified separator
-    if only_separator:
-        custom_words = [f"{org_name.capitalize()}{only_separator}{word.strip()}" for word in words] + \
-                       [f"{org_name.lower()}{only_separator}{word.strip()}" for word in words] + \
-                       [f"{org_name.upper()}{only_separator}{word.strip()}" for word in words]
-    else:
-        # Generate custom wordlist with the specified separator and default '@' and '' separators
-        custom_words = [f"{org_name.capitalize()}{separator}{word.strip()}" for word in words] + \
-                       [f"{org_name.lower()}{separator}{word.strip()}" for word in words] + \
-                       [f"{org_name.upper()}{separator}{word.strip()}" for word in words] + \
-                       [f"{org_name.capitalize()}@{word.strip()}" for word in words] + \
-                       [f"{org_name.lower()}@{word.strip()}" for word in words] + \
-                       [f"{org_name.upper()}@{word.strip()}" for word in words] + \
-                       [f"{org_name.capitalize()}{word.strip()}" for word in words] + \
-                       [f"{org_name.lower()}{word.strip()}" for word in words] + \
-                       [f"{org_name.upper()}{word.strip()}" for word in words]
-
-    # Write the custom wordlist to a file
-    with open(f"{org_name}_wordlist.txt", "w") as f:
-        f.writelines("\n".join(custom_words))
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
@@ -37,4 +50,3 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     generate_wordlist(args.org_name, args.wordlist, args.separator, args.only_separator)
- 
