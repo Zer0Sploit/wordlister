@@ -2,8 +2,8 @@ import argparse
 import resource
 
 def generate_wordlist(org_name, source_wordlist, separator, only_separator):
-	print('[+] Cooking your wordlist ...')
     # Open the source wordlist file
+    print('[+] Cooking your wordlist ...')
     with open(source_wordlist, "r", encoding='ISO-8859-1') as f:
         words = f.readlines()
 
